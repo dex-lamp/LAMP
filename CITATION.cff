@@ -6,3 +6,5 @@ authors:
   - name: "LAMP Authors"
 date-released: "2026-07-06"
 license: "MIT"
+url: "https://dex-lamp.github.io/"
+repository-code: "https://github.com/dex-lamp/LAMP"

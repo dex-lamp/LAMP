@@ -1,7 +1,11 @@
-# Hand-Action VAE
+# Latent Motion Prior
 
-`vae/` contains a JAX/Flax hand-action VAE. The model consumes a fixed-length
-history of absolute hand actions and predicts the next 6D hand action.
+`vae/` trains the Stage 1 latent motion prior module (LMPM). The model encodes
+an 8-step hand-action history and decodes a compact latent sample back to the
+next 6D absolute hand target.
+
+Default settings match the public LAMP setup: `window_size=8`,
+`latent_dim=2`, `hidden_dim=256`, `beta=0.001`, and `total_steps=20000`.
 
 ## Train
 
@@ -9,10 +13,7 @@ history of absolute hand actions and predicts the next 6D hand action.
 python vae/scripts/train_jax.py \
   --train_dir data/example_task/demos/success/train \
   --test_dir data/example_task/demos/success/test \
-  --output_dir outputs/hand_vae_example \
-  --latent_dim 2 \
-  --batch_size 256 \
-  --total_steps 20000
+  --output_dir outputs/hand_vae_example
 ```
 
 ## Evaluate
@@ -24,12 +25,15 @@ python vae/scripts/eval_jax.py \
   --output_dir visualizations/hand_vae_example
 ```
 
-## Checkpoint Layout
+## Outputs
 
-Training writes JAX pickle checkpoints under:
+Training writes a JAX pickle checkpoint under:
 
 ```text
 outputs/hand_vae_example/jax_checkpoints/checkpoint.pkl
 ```
 
-The payload stores model arguments, optimizer state, and training arguments.
+That checkpoint is consumed by the LAMP BC path through
+`--vae_ckpt pretrained_models/jax_ckpt/hand_vae` or an equivalent local path.
+
+For the full training order, see [`../docs/training.md`](../docs/training.md).

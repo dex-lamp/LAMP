@@ -1,31 +1,19 @@
 # Common Imitation-Learning Components
 
-This directory contains shared JAX/Flax components used by the LAMP
-behavior-cloning path.
+`common/` holds shared modules used by the public BC implementation.
 
-## Dataset
+## Main Files
 
-`model/bc_dataset.py` provides:
+| File | Purpose |
+| --- | --- |
+| `model/bc_dataset.py` | Loads `trajectory_*_demo_expert.pt` files and builds one-step next-action samples. |
+| `model/policy_jax.py` | JAX/Flax BC policy with LAMP, raw, PCA, decoder-only, and VQ-VAE hand heads. |
+| `model/checkpoint_compat.py` | Checkpoint loading, saving, and compatibility helpers. |
 
-- `compute_action_stats(data_dir)`: action mean/std computation over trajectory
-  files.
-- `BCDataset`: a single-step next-pose dataset.
+`BCDataset` treats `actions[t]` as the current absolute robot pose and trains
+the policy to predict `actions[t + 1]`. For `t == T - 1`, the target holds the
+last pose.
 
-Each dataset item includes image tensors, normalized policy state, hand history
-windows, and the next-step ground-truth action.
-
-## Policy Modules
-
-`model/policy_jax.py` provides:
-
-- dense layers with source-checkpoint-compatible initialization;
-- state encoders (`mlp`, `linear64`, `raw`);
-- HuggingFace ResNet-18 and SERL-style ResNet-10 backbones;
-- `CoreActionHead`;
-- `BCPolicy` with `vae`, `mlp_direct`, `decoder_only`, `vq_codebook`, and
-  `pca_raw` hand-prior modes.
-
-## Checkpoints
-
-`model/checkpoint_compat.py` provides JAX pickle checkpoint helpers and
-conversion utilities needed by the policy code.
+The policy can load either HuggingFace ResNet-18 weights or a SERL-style
+ResNet-10 backbone when the corresponding checkpoint and code path are
+available.

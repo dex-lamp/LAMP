@@ -1,8 +1,14 @@
-# Hand Residual VQ-VAE
+# VQ-VAE Baseline
 
-`vq-vae/` contains a JAX/Flax residual VQ-VAE for 6D hand actions. The model
-uses two residual vector-quantization layers and exports a sorted hand-action
-codebook that can be consumed by behavior cloning.
+`vq-vae/` contains the discrete hand-action interface used for the VQ-VAE
+baseline. It trains a residual VQ hand-action autoencoder and exports a sorted
+6D hand-action codebook for behavior cloning.
+
+This implementation is a JAX/Flax reproduction of the DQ-RISE-style quantized
+hand-state baseline. It follows the same high-level idea of replacing direct
+hand regression with codebook prediction, while fitting into the LAMP BC and
+residual-RL pipeline. If you use this baseline, cite both the LAMP release and
+DQ-RISE: https://github.com/rise-policy/DQ-RISE.
 
 ## Train
 
@@ -10,9 +16,7 @@ codebook that can be consumed by behavior cloning.
 python vq-vae/scripts/train_jax.py \
   --train_dir data/example_task/demos/success/train \
   --test_dir data/example_task/demos/success/test \
-  --output_dir outputs/hand_vqvae_example \
-  --batch_size 256 \
-  --total_steps 20000
+  --output_dir outputs/hand_vqvae_example
 ```
 
 ## Export Codebook
@@ -34,5 +38,5 @@ python imitation_learning/behavior_clone/scripts/train_jax.py \
   --output_dir outputs/behavior_clone_vq_example
 ```
 
-The model predicts a normalized hand-code index and performs a hard lookup in
-the sorted codebook at inference time.
+For all action-interface baselines, see
+[`../docs/baselines.md`](../docs/baselines.md).

@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lamp-research-code"
+name = "dex-lamp"
 authors = [
     {name = "LAMP Authors"}
 ]
@@ -37,6 +37,10 @@ dependencies = [
     "tqdm",
     "transformers",
 ]
+
+[project.urls]
+Homepage = "https://dex-lamp.github.io/"
+Repository = "https://github.com/dex-lamp/LAMP"
 
 [project.optional-dependencies]
 dev = [

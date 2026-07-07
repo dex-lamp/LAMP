@@ -1,41 +1,24 @@
 # Imitation Learning
 
-This directory contains the public imitation-learning code used for LAMP Stage
-2. The policy learns from demonstrations after the latent motion prior has been
-pretrained. It predicts arm commands directly and predicts hand commands through
-a compact latent interface supplied by the frozen hand-action prior.
+`imitation_learning/` contains the Stage 2 behavior-cloning code. The policy
+uses RGB observations, robot state, and recent hand-action history to predict
+the next robot action.
 
-## Contents
+## Layout
 
-- `behavior_clone/`: integrated visuomotor behavior cloning over arm commands
-  and latent-prior-guided hand actions.
-- `common/`: shared datasets, policy modules, and checkpoint helpers used by
-  the behavior-cloning implementation.
+| Path | Role |
+| --- | --- |
+| `behavior_clone/` | Training and evaluation entry points for the integrated visuomotor policy. |
+| `common/` | Shared datasets, policy modules, checkpoint helpers, and visual backbones. |
 
-## Shared Data Format
+The LAMP path uses `--hand_prior_source vae`: the policy predicts a native 6D
+arm command and a 2D latent hand offset, then decodes the hand command through
+the frozen latent motion prior.
 
-All policies read trajectory files named `trajectory_*_demo_expert.pt`.
-The expected fields are:
+Other supported hand interfaces are documented in
+[`../docs/baselines.md`](../docs/baselines.md).
 
-- `actions[:, 0, :]`: `(T, 12)` actions.
-- `curr_obs["main_images"][:, 0]`: primary RGB images.
-- `curr_obs["extra_view_images"][:, 0, 0]`: secondary RGB images.
-
-Behavior cloning follows a next-pose convention: a sample at time `t` uses the
-current observation and action history to predict the action at `t + 1`.
-
-## Backbones
-
-The behavior-cloning policy supports:
-
-- `hf_resnet18`: HuggingFace Flax ResNet-18 loaded from `--resnet_path`.
-- `hil_serl_resnet10`: a SERL-style ResNet-10 loaded from `HIL_SERL_ROOT` or
-  `--hil_serl_root`, with weights passed through `--resnet10_ckpt`.
-
-For public releases, prefer explicit relative checkpoint paths or public model
-identifiers.
-
-## Generic Behavior-Cloning Launch
+## Train
 
 ```bash
 TRAIN_DIR=data/example_task/demos/success/train \
@@ -46,10 +29,7 @@ OUTPUT_DIR=outputs/behavior_clone_example \
 bash imitation_learning/behavior_clone/scripts/train_example_jax.sh
 ```
 
-The same configuration can be passed directly to
-`imitation_learning/behavior_clone/scripts/train_jax.py`.
-
-## Evaluation
+## Evaluate
 
 ```bash
 python imitation_learning/behavior_clone/scripts/eval_jax.py \
@@ -58,6 +38,6 @@ python imitation_learning/behavior_clone/scripts/eval_jax.py \
   --output_dir visualizations/behavior_clone_example
 ```
 
-Online control requires a separate adapter that maps environment observations
-into the dataset format and handles deployment-specific transport, safety, and
-reset logic.
+For data conventions and the full training sequence, see
+[`../docs/data_format.md`](../docs/data_format.md) and
+[`../docs/training.md`](../docs/training.md).
