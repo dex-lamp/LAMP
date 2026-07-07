@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.png" alt="LAMP logo" width="220">
+  <img src="assets/logo.png" alt="LAMP logo" width="880">
   <h1>LAMP</h1>
   <p><strong>Latent Motion Prior-Guided Real-World Learning for Dexterous Hand Manipulation</strong></p>
   <p>
