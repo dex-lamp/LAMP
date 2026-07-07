@@ -84,8 +84,6 @@ python reinforcement_learning/residual_rl/scripts/smoke_test_imports.py
 
 ## Documentation
 
-- [`docs/installation.md`](docs/installation.md): environment setup and local
-  development checks.
 - [`docs/data_format.md`](docs/data_format.md): trajectory format expected by
   VAE, BC, PCA, and VQ-VAE code.
 - [`docs/training.md`](docs/training.md): end-to-end training flow from prior
@@ -94,8 +92,6 @@ python reinforcement_learning/residual_rl/scripts/smoke_test_imports.py
   comparison modes.
 - [`docs/residual_rl.md`](docs/residual_rl.md): public residual-RL boundary and
   integration sketch.
-- [`docs/media.md`](docs/media.md): recommended figure and video usage for the
-  code repo and project page.
 
 ## Release Scope
 
