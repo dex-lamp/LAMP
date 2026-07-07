@@ -1,20 +1,27 @@
-# LAMP Supplement Code
+# LAMP Research Code
 
-This anonymized repository accompanies the paper "LAMP: Latent Motion
-Prior-Guided Real-World Learning for Dexterous Hand Manipulation." It contains
-the public algorithmic components for learning a compact hand-action interface,
+This repository contains the public research code for "LAMP: Latent Motion
+Prior-Guided Real-World Learning for Dexterous Hand Manipulation." It provides
+the algorithmic components for learning a compact hand-action interface,
 training an imitation policy on top of that interface, and refining the policy
 with residual reinforcement learning.
 
-The release is organized around reusable learning components. Demonstration
-data, checkpoints, robot server code, calibration files, experiment logs, reward
-services, and lab-specific launch scripts are intentionally not included.
+The release is intentionally focused on reusable learning code. Demonstration
+data, trained checkpoints, robot server code, calibration files, experiment
+logs, reward services, and lab-specific launch scripts are not included.
 
-## Paper Alignment
+## Publication Status
+
+The paper is not yet available through arXiv or another public archival source.
+Until a public paper record exists, please cite the repository or commit hash
+directly when using this code. The paper citation should be added here once the
+manuscript is public.
+
+## Method Components
 
 LAMP exposes high-dimensional dexterous hand motion through a compact,
 history-conditioned latent action space. The code mirrors the three-stage
-pipeline described in the paper:
+pipeline:
 
 - Stage 1, latent motion prior: `vae/` trains a hand-action VAE that maps recent
   hand-action history into a compact latent prior and decodes latent vectors
@@ -26,20 +33,24 @@ pipeline described in the paper:
   components that add online residuals in the same shared latent hand-action
   interface before decoding the final hand command.
 
-The paper also compares this latent interface against raw, linear, and discrete
-hand-action interfaces. The public code therefore keeps small baseline modules
-for PCA and VQ-VAE style hand-action representations.
+The repository also includes PCA and VQ-VAE baselines for raw, linear, and
+discrete hand-action interfaces.
 
-## Layout
+## Repository Layout
 
 - `vae/`: JAX/Flax latent motion prior for hand actions.
 - `vq-vae/`: JAX/Flax residual VQ-VAE hand-action tokenizer baseline.
 - `pca/`: PCA utilities for low-dimensional hand-action baselines.
-- `imitation_learning/`: behavior-cloning code for LAMP Stage 2 and a
-  hand-only BC baseline.
+- `imitation_learning/`: behavior-cloning code for LAMP Stage 2 and shared
+  imitation-learning modules.
 - `reinforcement_learning/`: residual SAC/RLPD algorithm code separated from
   robot interaction infrastructure.
 - `scripts/`: data conversion utilities for the public trajectory format.
+
+Run commands from the repository root unless a subdirectory README says
+otherwise. The `vq-vae/` directory keeps its historical hyphenated name for
+checkpoint and script compatibility; use it through the documented scripts
+rather than importing it as a Python package.
 
 ## Data Convention
 
@@ -51,18 +62,31 @@ Each trajectory should provide:
 - `curr_obs["main_images"][:, 0]`: primary RGB camera images.
 - `curr_obs["extra_view_images"][:, 0, 0]`: secondary RGB camera images.
 
-The scripts use relative paths by default. Place data under a local directory
-such as `data/example_task/demos/success/{train,test}` or pass explicit
-relative paths with command line flags.
+Place data under a local directory such as
+`data/example_task/demos/success/{train,test}` or pass explicit relative paths
+with command line flags. The `data/`, `outputs/`, `visualizations/`, and
+`pretrained_models/` directories are ignored by Git.
 
 ## Setup
 
-Use a JAX-capable Python environment with `jax`, `flax`, `optax`, `chex`,
-`distrax`, `gymnasium`, `einops`, `numpy`, `torch`, and `transformers`.
+Use Python 3.10 or newer. Install the platform-appropriate JAX build for your
+CPU/GPU environment, then install this repository in editable mode:
 
 ```bash
 pip install -e .
 ```
+
+For development checks:
+
+```bash
+pip install -e ".[dev]"
+make check
+```
+
+The behavior-cloning examples use the public HuggingFace
+`microsoft/resnet-18` checkpoint by default. In offline environments, pass a
+local directory containing the same HuggingFace checkpoint files through
+`--resnet_path` or `RESNET_PATH`.
 
 ## Examples
 
@@ -81,6 +105,7 @@ Train the Stage 2 behavior-cloning policy:
 TRAIN_DIR=data/example_task/demos/success/train \
 TEST_DIR=data/example_task/demos/success/test \
 VAE_CKPT=pretrained_models/jax_ckpt/hand_vae \
+RESNET_PATH=microsoft/resnet-18 \
 OUTPUT_DIR=outputs/behavior_clone_example \
 bash imitation_learning/behavior_clone/scripts/train_example_jax.sh
 ```
@@ -91,10 +116,14 @@ Check the public residual-RL imports:
 python reinforcement_learning/residual_rl/scripts/smoke_test_imports.py
 ```
 
-## Privacy Boundary
+## Release Boundary
 
-This branch should not contain experiment logs, absolute local filesystem
+This repository should not contain experiment logs, absolute local filesystem
 paths, robot IP addresses, private user names, private emails, local manuscript
-drafts, or lab-specific robot interaction code. Robot deployment requires a
-separate environment adapter that supplies observations, rewards, resets, and
-safety handling.
+drafts, private datasets, or lab-specific robot interaction code. Robot
+deployment requires a separate environment adapter that supplies observations,
+rewards, resets, and safety handling.
+
+## License
+
+This code is released under the MIT License. See `LICENSE` for details.

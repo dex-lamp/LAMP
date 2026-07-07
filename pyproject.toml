@@ -3,15 +3,15 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "corl-supplement-code"
+name = "lamp-research-code"
 authors = [
-    {name = "Anonymous Authors"}
+    {name = "LAMP Authors"}
 ]
-description = "Anonymized supplementary code for imitation learning and residual reinforcement learning"
+description = "Public research code for latent-prior-guided dexterous manipulation"
 version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = ["robot learning", "imitation learning", "reinforcement learning"]
+keywords = ["robot learning", "dexterous manipulation", "imitation learning", "reinforcement learning"]
 license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 3 - Alpha",

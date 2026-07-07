@@ -215,12 +215,10 @@ class ResNetEncoder(nn.Module):
         cond_var=None,
         stop_gradient=False,
     ):
-        # put inputs in [-1, 1]
-        # x = observations.astype(jnp.float32) / 127.5 - 1.0
         if observations.shape[-3:-1] != self.image_size:
             observations = resize(observations, self.image_size)
 
-        # imagenet mean and std # TODO: add this back
+        # Match the ImageNet normalization used by the pretrained ResNet weights.
         mean = jnp.array([0.485, 0.456, 0.406])
         std = jnp.array([0.229, 0.224, 0.225])
         x = (observations.astype(jnp.float32) / 255.0 - mean) / std

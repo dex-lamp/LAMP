@@ -7,7 +7,7 @@ PYTHON_BIN="${PYTHON_BIN:-python}"
 TRAIN_DIR="${TRAIN_DIR:-data/example_task/demos/success/train}"
 TEST_DIR="${TEST_DIR:-data/example_task/demos/success/test}"
 VAE_CKPT="${VAE_CKPT:-pretrained_models/jax_ckpt/hand_vae}"
-RESNET_PATH="${RESNET_PATH:-pretrained_models/resnet-18}"
+RESNET_PATH="${RESNET_PATH:-microsoft/resnet-18}"
 OUTPUT_DIR="${OUTPUT_DIR:-outputs/behavior_clone_example}"
 
 "${PYTHON_BIN}" imitation_learning/behavior_clone/scripts/train_jax.py "$@" \

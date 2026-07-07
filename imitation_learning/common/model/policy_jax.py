@@ -33,16 +33,23 @@ def _load_module(path: str, name: str):
 
 
 def _load_hil_serl_resnet_v1(hil_serl_root: str):
-    launcher_root = os.path.join(hil_serl_root, "serl_launcher")
-    if not os.path.isdir(launcher_root):
-        raise FileNotFoundError(
-            f"HiL-SERL launcher package not found under: {launcher_root}. "
-            "Set HIL_SERL_ROOT or pass the correct hil_serl_root in model_args."
-        )
-    if launcher_root not in sys.path:
-        sys.path.insert(0, launcher_root)
-    resnet_v1 = importlib.import_module("serl_launcher.vision.resnet_v1")
-    return resnet_v1.PreTrainedResNetEncoder, resnet_v1.resnetv1_configs
+    try:
+        from reinforcement_learning.residual_rl.vision import resnet_v1
+
+        return resnet_v1.PreTrainedResNetEncoder, resnet_v1.resnetv1_configs
+    except Exception:
+        launcher_root = os.path.join(hil_serl_root, "serl_launcher")
+        if not os.path.isdir(launcher_root):
+            raise FileNotFoundError(
+                f"HiL-SERL launcher package not found under: {launcher_root}. "
+                "The local reinforcement_learning.residual_rl.vision.resnet_v1 import also failed. "
+                "Set HIL_SERL_ROOT or pass the correct hil_serl_root in model_args."
+            )
+        search_root = os.path.abspath(hil_serl_root)
+        if search_root not in sys.path:
+            sys.path.insert(0, search_root)
+        resnet_v1 = importlib.import_module("serl_launcher.vision.resnet_v1")
+        return resnet_v1.PreTrainedResNetEncoder, resnet_v1.resnetv1_configs
 
 
 _hand_vae_jax_mod = _load_module(

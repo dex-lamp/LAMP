@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite this software release and the LAMP paper once the paper is publicly available."
+title: "LAMP: Latent Motion Prior-Guided Real-World Learning for Dexterous Hand Manipulation"
+type: software
+authors:
+  - name: "LAMP Authors"
+date-released: "2026-07-06"
+license: "MIT"

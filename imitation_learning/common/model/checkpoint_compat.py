@@ -61,6 +61,12 @@ def load_resnet18_torch_state_dict(pretrained_path: str) -> Dict[str, torch.Tens
     return model.state_dict()
 
 
+def load_resnet18_config(pretrained_path: str) -> Dict[str, Any]:
+    from transformers import ResNetConfig
+
+    return ResNetConfig.from_pretrained(pretrained_path).to_dict()
+
+
 def flax_resnet_variables_from_torch_state_dict(
     torch_state: Dict[str, torch.Tensor],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:

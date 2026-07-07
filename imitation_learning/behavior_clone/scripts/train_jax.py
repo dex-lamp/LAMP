@@ -45,6 +45,7 @@ BCPolicy = _policy_mod.BCPolicy
 count_params = _policy_mod.count_params
 DEFAULT_HIL_SERL_ROOT = getattr(_policy_mod, "DEFAULT_HIL_SERL_ROOT", "")
 load_resnet18_flax_variables = _compat_mod.load_resnet18_flax_variables
+load_resnet18_config = _compat_mod.load_resnet18_config
 resolve_jax_checkpoint_dir = _compat_mod.resolve_jax_checkpoint_dir
 restore_jax_checkpoint = _compat_mod.restore_jax_checkpoint
 save_jax_checkpoint_payload = _compat_mod.save_jax_checkpoint
@@ -88,10 +89,10 @@ def get_args():
     p.add_argument(
         "--backbone_impl",
         type=str,
-        default="hil_serl_resnet10",
+        default="hf_resnet18",
         choices=["hf_resnet18", "hil_serl_resnet10"],
     )
-    p.add_argument("--resnet_path", type=str, default="pretrained_models/resnet-18")
+    p.add_argument("--resnet_path", type=str, default="microsoft/resnet-18")
     p.add_argument("--hil_serl_root", type=str, default=DEFAULT_HIL_SERL_ROOT)
     p.add_argument(
         "--resnet10_ckpt",
@@ -191,11 +192,6 @@ def policy_hand_window_from_batch(batch_np, hand_prior_source: str):
     if hand_prior_source == "pca_raw":
         return batch_np["past_hand_win_raw"]
     return batch_np["past_hand_win"]
-
-
-def _load_json(path: str) -> Dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
 
 
 def load_hand_codebook(path: str | None) -> np.ndarray | None:
@@ -320,7 +316,7 @@ def build_model_args(args, vae_model_args=None, hand_codebook=None, hand_pca_mea
         model_args.update(
             {
                 "backbone_type": "hf_resnet18",
-                "backbone_config": _load_json(os.path.join(args.resnet_path, "config.json")),
+                "backbone_config": load_resnet18_config(args.resnet_path),
                 "resnet_path": args.resnet_path,
             }
         )
@@ -1010,6 +1006,22 @@ def main():
                 "Cannot resume BC checkpoint with a different number of image views: "
                 f"resume has {resume_num_views} {resume_image_keys}, current run has "
                 f"{model_args.get('num_image_views')} {model_args.get('bc_image_keys')}."
+            )
+        resume_backbone = resume_model_args.get("backbone_type")
+        current_backbone = model_args.get("backbone_type")
+        if resume_backbone is not None and resume_backbone != current_backbone:
+            raise ValueError(
+                "Cannot resume BC checkpoint with a different visual backbone: "
+                f"resume has {resume_backbone!r}, current run uses {current_backbone!r}. "
+                "Pass the matching --backbone_impl for the checkpoint you are resuming."
+            )
+        resume_hand_prior = resume_model_args.get("hand_prior_source")
+        current_hand_prior = model_args.get("hand_prior_source")
+        if resume_hand_prior is not None and resume_hand_prior != current_hand_prior:
+            raise ValueError(
+                "Cannot resume BC checkpoint with a different hand prior source: "
+                f"resume has {resume_hand_prior!r}, current run uses {current_hand_prior!r}. "
+                "Pass the matching --hand_prior_source for the checkpoint you are resuming."
             )
         resume_step = int(payload.get("step", -1))
         if resume_step < 0:

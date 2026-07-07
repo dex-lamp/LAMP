@@ -32,7 +32,8 @@ The behavior-cloning policy supports:
 - `hil_serl_resnet10`: a SERL-style ResNet-10 loaded from `HIL_SERL_ROOT` or
   `--hil_serl_root`, with weights passed through `--resnet10_ckpt`.
 
-For anonymous release builds, prefer explicit relative checkpoint paths.
+For public releases, prefer explicit relative checkpoint paths or public model
+identifiers.
 
 ## Generic Behavior-Cloning Launch
 
@@ -40,7 +41,7 @@ For anonymous release builds, prefer explicit relative checkpoint paths.
 TRAIN_DIR=data/example_task/demos/success/train \
 TEST_DIR=data/example_task/demos/success/test \
 VAE_CKPT=pretrained_models/jax_ckpt/hand_vae \
-RESNET_PATH=pretrained_models/resnet-18 \
+RESNET_PATH=microsoft/resnet-18 \
 OUTPUT_DIR=outputs/behavior_clone_example \
 bash imitation_learning/behavior_clone/scripts/train_example_jax.sh
 ```

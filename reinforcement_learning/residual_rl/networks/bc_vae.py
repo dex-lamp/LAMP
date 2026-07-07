@@ -1,6 +1,6 @@
 """BC policy that combines visual features with a VAE hand-action prior.
 
-This public supplement copy contains the pure Flax model layer used by
+This public release contains the pure Flax model layer used by
 residual RL:
 
 * Inputs are already preprocessed tensors: NCHW image batches in `[0, 1]`,
@@ -44,7 +44,7 @@ DEFAULT_HIL_SERL_ROOT = os.environ.get("HIL_SERL_ROOT", "")
 def _load_hil_serl_resnet_v1(hil_serl_root: str):
     """Load the SERL ResNet implementation used by pretrained visual checkpoints.
 
-    The supplement package vendors a compatible
+    The release package vendors a compatible
     `reinforcement_learning.residual_rl.vision.resnet_v1`. We prefer that local
     implementation so BCVAE does not depend on a private external checkout. The
     `hil_serl_root` argument is kept in the model signature for checkpoint
@@ -63,8 +63,9 @@ def _load_hil_serl_resnet_v1(hil_serl_root: str):
                 "The local reinforcement_learning.residual_rl.vision.resnet_v1 import also failed. "
                 "Set HIL_SERL_ROOT if you want to use an external HiL-SERL checkout."
             )
-        if launcher_root not in sys.path:
-            sys.path.insert(0, launcher_root)
+        search_root = os.path.abspath(hil_serl_root)
+        if search_root not in sys.path:
+            sys.path.insert(0, search_root)
         resnet_v1 = importlib.import_module("serl_launcher.vision.resnet_v1")
         return resnet_v1.PreTrainedResNetEncoder, resnet_v1.resnetv1_configs
 

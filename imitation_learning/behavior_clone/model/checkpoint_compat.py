@@ -23,6 +23,7 @@ save_jax_checkpoint = _common.save_jax_checkpoint
 restore_jax_checkpoint = _common.restore_jax_checkpoint
 load_resnet18_torch_state_dict = _common.load_resnet18_torch_state_dict
 flax_resnet_variables_from_torch_state_dict = _common.flax_resnet_variables_from_torch_state_dict
+load_resnet18_config = _common.load_resnet18_config
 load_resnet18_flax_variables = _common.load_resnet18_flax_variables
 resolve_jax_checkpoint_dir = _common.resolve_jax_checkpoint_dir
 
@@ -33,6 +34,7 @@ __all__ = [
     "restore_jax_checkpoint",
     "load_resnet18_torch_state_dict",
     "flax_resnet_variables_from_torch_state_dict",
+    "load_resnet18_config",
     "load_resnet18_flax_variables",
     "resolve_jax_checkpoint_dir",
 ]

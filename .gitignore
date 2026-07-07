@@ -154,6 +154,14 @@ dmypy.json
 cache/
 data/
 
+# Local model/checkpoint artifacts
+*.ckpt
+*.pth
+*.pt
+*.pkl
+*.safetensors
+*.onnx
+
 # Rollout videos and wandb logs
 rollouts/
 wandb/

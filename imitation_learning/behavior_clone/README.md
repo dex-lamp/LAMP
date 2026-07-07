@@ -48,7 +48,7 @@ Use the generic launch script:
 TRAIN_DIR=data/example_task/demos/success/train \
 TEST_DIR=data/example_task/demos/success/test \
 VAE_CKPT=pretrained_models/jax_ckpt/hand_vae \
-RESNET_PATH=pretrained_models/resnet-18 \
+RESNET_PATH=microsoft/resnet-18 \
 OUTPUT_DIR=outputs/behavior_clone_example \
 bash imitation_learning/behavior_clone/scripts/train_example_jax.sh
 ```
@@ -60,7 +60,7 @@ python imitation_learning/behavior_clone/scripts/train_jax.py \
   --train_dir data/example_task/demos/success/train \
   --test_dir data/example_task/demos/success/test \
   --vae_ckpt pretrained_models/jax_ckpt/hand_vae \
-  --resnet_path pretrained_models/resnet-18 \
+  --resnet_path microsoft/resnet-18 \
   --output_dir outputs/behavior_clone_example \
   --backbone_impl hf_resnet18 \
   --hand_prior_source vae \

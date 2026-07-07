@@ -2,7 +2,7 @@
 
 This file intentionally keeps only generic utilities.  The private robot
 launcher version also contained logging, video, and download helpers; those are
-not needed for the supplement algorithm package.
+not needed for the public algorithm package.
 """
 
 from __future__ import annotations

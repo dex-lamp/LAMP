@@ -1,6 +1,6 @@
 """Hand-action VAE network used by BCVAE policies.
 
-This supplement copy intentionally contains only pure model definitions: no
+This public release intentionally contains only pure model definitions: no
 checkpoint I/O, no replay buffer logic, and no environment transport code.
 
 The VAE consumes a history window of absolute hand poses with shape

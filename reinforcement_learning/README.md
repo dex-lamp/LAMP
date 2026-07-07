@@ -1,4 +1,4 @@
-# Reinforcement Learning Supplement
+# Reinforcement Learning
 
 This directory contains the public residual-RL algorithm code used for LAMP
 Stage 3. It intentionally excludes private robot interaction infrastructure,
@@ -54,7 +54,7 @@ without depending on robot transport.
 
 ## Not Included
 
-This supplement copy does not include:
+This public release does not include:
 
 - HTTP or realtime robot server clients.
 - Task-specific reset, compliance, or safety wrappers.
