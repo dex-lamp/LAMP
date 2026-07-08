@@ -5,7 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dex-lamp"
 authors = [
-    {name = "LAMP Authors"}
+    {name = "Xinye Yang"},
+    {name = "Zhiyuan Ma"},
+    {name = "Hongze Yu"},
+    {name = "Yuanpei Chen"},
+    {name = "Yaodong Yang"},
+    {name = "Xiaojie Chai"},
+    {name = "Xinlei Chen"},
+    {name = "Chao Yu"},
 ]
 description = "Public research code for latent-prior-guided dexterous manipulation"
 version = "0.1.0"
@@ -41,6 +48,7 @@ dependencies = [
 [project.urls]
 Homepage = "https://dex-lamp.github.io/"
 Repository = "https://github.com/dex-lamp/LAMP"
+Paper = "https://arxiv.org/abs/2607.06323"
 
 [project.optional-dependencies]
 dev = [

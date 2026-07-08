@@ -4,7 +4,7 @@
   <p><strong>Latent Motion Prior-Guided Real-World Learning for Dexterous Hand Manipulation</strong></p>
   <p>
     <a href="https://dex-lamp.github.io/">Project Page</a> |
-    Paper coming soon |
+    <a href="https://arxiv.org/abs/2607.06323">arXiv</a> |
     <a href="https://github.com/dex-lamp/LAMP">GitHub</a> |
     <a href="LICENSE">MIT License</a>
   </p>
@@ -125,10 +125,19 @@ robot-learning work:
 
 ## Citation
 
-The LAMP paper is not yet publicly archived. Until the public paper record and
-BibTeX are available, please cite this software release or the exact commit
-hash used in your experiments. `CITATION.cff` will be updated once the paper is
-public.
+If you use this code, please cite the LAMP paper and this repository:
+
+```bibtex
+@misc{yang2026lamplatentmotionpriorguided,
+      title={LAMP: Latent Motion Prior-Guided Real-World Learning for Dexterous Hand Manipulation},
+      author={Xinye Yang and Zhiyuan Ma and Hongze Yu and Yuanpei Chen and Yaodong Yang and Xiaojie Chai and Xinlei Chen and Chao Yu},
+      year={2026},
+      eprint={2607.06323},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2607.06323},
+}
+```
 
 ## License
 
